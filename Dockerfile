@@ -1,10 +1,10 @@
 # Pgpool2.
 
-FROM alpine:edge
+FROM alpine:3.7
 
-ENV PGPOOL_VERSION 3.6.1
+ENV PGPOOL_VERSION 3.7.2
 
-ENV PG_VERSION 9.6.2-r1
+ENV PG_VERSION 10.3-r0
 
 ENV LANG en_US.utf8
     
@@ -22,8 +22,7 @@ RUN apk --update --no-cache add libpq=${PG_VERSION} postgresql-dev=${PG_VERSION}
     make && \
     make install && \
     rm -rf /tmp/pgpool-II-${PGPOOL_VERSION} && \
-    curl -o /usr/local/bin/gosu -sSL "https://github.com/tianon/gosu/releases/download/1.2/gosu-amd64" && \
-    chmod +x /usr/local/bin/gosu && \
+    apk --update-cache add gosu --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
     apk del postgresql-dev linux-headers gcc make libgcc g++ curl
 
 RUN pip install Jinja2
